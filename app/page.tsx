@@ -1,113 +1,82 @@
+"use client"
 import Image from 'next/image'
+import { useState , useEffect } from 'react'
+import { useTheme } from 'next-themes'
+import { Overview } from '@/components/overview'
+import { Dashboard } from '@/components/dashboard'
 
 export default function Home() {
+  const { theme,setTheme} = useTheme();
+  const [mounted,setMounted] = useState(false);
+  useEffect(()=>{
+    setMounted(true)
+    setTheme('dark')
+  }, [])
+
+  const switctTheme = () => {
+    if (theme === 'dark'){
+      setTheme('light')
+    }
+    else{
+      setTheme('dark')
+    }
+  }
+
+  if(!mounted ) return null
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className='  w-screen h-screen'>
+      
+      <div className=' bg-light-bg relative z-30 dark:bg-dark-bg flex flex-col px-5 md:px-6 lg:px-10 xl:px-40 py-10' >
+        <div className=' bg-light-top-bg absolute z-0 dark:bg-dark-top-bg h-60 top-0 left-0 w-full '>
+        </div>
+        <div className='flex flex-col md:space-y-0 space-y-4 md:flex-row justify-between'>
+          <div className=' flex flex-col z-30 pb-4 border-b-[1px] md:border-none border-gray-700'>
+            <div className='text-xl md:text-3xl  font-bold text-light-text2 dark:text-dark-text2'>
+              Social Media Dashboard
+            </div>
+            <div className=' text-light-text1 dark:text-dark-text1'>
+              Total Follower: 23,004
+            </div>
+          </div>
+          <div className=' flex flex-row  space-x-3 justify-between md:justify-center items-center'>  
+            <div className=' z-30 font-bold text-light-text2 dark:text-dark-text2'>
+              Dark Mode
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input onClick={switctTheme} type="checkbox" value="" className="sr-only peer" />
+              <div className="w-12 h-7 bg-gray-200 rounded-full peer peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gradient-to-r dark:from-dark-toggle-start dark:to-dark-toggle-end peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:start-[4px] after:bg-white dark:after:bg-dark-card after:border-dark-card after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-light-toggle 
+              peer-checked:hover:bg-gradient-to-r peer-checked:hover:from-dark-toggle-start peer-checked:hover:to-dark-toggle-end "></div>
+              
+            </label>
+          </div>
+        </div>
+        <div className=' flex flex-col space-y-6 md:space-y-0 md:flex-row pt-16 md:space-x-4 lg:space-x-10'>
+          <Dashboard name={"@nathanf"} picture={"facebook"} total={"1987"} detail={"FOLLOWERS"} status={"up"} dif={"12"} style={"bg-primary-facebook"}/>
+          <Dashboard name={"@nathanf"} picture={"twitter"} total={"1044"} detail={"FOLLOWERS"} status={"up"} dif={"99"} style={"bg-primary-twitter"}/>
+          <Dashboard name={"@realnathanf"} picture={"instagram"} total={"11k"} detail={"FOLLOWERS"} status={"up"} dif={"1099"} style={"bg-gradient-to-r from-primary-instagram-start to-primary-instagram-end"}/>
+          <Dashboard name={"Nathan F."} picture={"youtube"} total={"8239"} detail={"SUBSCRIBERS"} status={"down"} dif={"144"} style={"bg-primary-youtube"}/>
+      
+        </div>
+        <div className=' flex flex-col pt-16 space-y-3 '>
+          <div className=' text-xl md:text-3xl  font-bold text-light-text2 dark:text-dark-text2'>
+            Overview - Today
+          </div>
+          <div className='md:space-x-4 lg:space-x-10 space-y-3 flex flex-col md:flex-row'>
+            <Overview topic={"Page Views"} picture={"facebook"} status={"up"} num={"87"} percent={"3%"}/>
+            <Overview topic={"Likes"} picture={"facebook"} status={"down"} num={"52"} percent={"2%"}/>
+            <Overview topic={"Likes"} picture={"instagram"} status={"up"} num={"5462"} percent={"2257%"}/>
+            <Overview topic={"Profile Views"} picture={"instagram"} status={"up"} num={"52k"} percent={"1375%"}/>
+          </div>
+          <div className='md:space-x-4 lg:space-x-10  space-y-3 flex flex-col md:flex-row'>
+            <Overview topic={"Retweets"} picture={"twitter"} status={"up"} num={"117"} percent={"303%"}/>
+            <Overview topic={"Likes"} picture={"twitter"} status={"up"} num={"507"} percent={"553%"}/>
+            <Overview topic={"Likes"} picture={"youtube"} status={"down"} num={"107"} percent={"19%"}/>
+            <Overview topic={"Total Views"} picture={"youtube"} status={"down"} num={"1407"} percent={"12%"}/>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
   )
+    
 }
